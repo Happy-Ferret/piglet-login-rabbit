@@ -21,6 +21,16 @@ Run
 
   polymer serve
 
-Then open 
+Then open
 
     http://localhost:8080/components/piglet-login-rabbit/
+
+## Screenshots
+
+![1](https://github.com/PigletsRepo/polymer-piglet-mapbox-map/blob/master/docs/images/screenshot_1.png)
+
+![2](https://github.com/PigletsRepo/polymer-piglet-mapbox-map/blob/master/docs/images/screenshot_2.png)
+
+![3](https://github.com/PigletsRepo/polymer-piglet-mapbox-map/blob/master/docs/images/screenshot_3.png)
+
+![4](https://github.com/PigletsRepo/polymer-piglet-mapbox-map/blob/master/docs/images/screenshot_4.png)
