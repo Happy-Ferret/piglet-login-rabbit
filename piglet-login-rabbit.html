@@ -1,0 +1,202 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-image/iron-image.html">
+<link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../paper-styles/default-theme.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-icons/communication-icons.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+
+<dom-module id="piglet-login-rabbit">
+  <template>
+    <style include="paper-material">
+      :host {
+        display: inline-block;
+        position: relative;
+        box-sizing: border-box;
+        background-color: #fff;
+        border-radius: 2px;
+        margin: 2px;
+        @apply(--paper-font-common-base);
+        @apply(--piglet-login-rabbit-theme);
+        --piglet-login-header-color: #03A9F4;
+        --piglet-login-width: 300px;
+        width: var(--piglet-login-width);
+      }
+      /* IE 10 support for HTML5 hidden attr */
+
+      [hidden] {
+        display: none !important;
+      }
+
+      .header {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+        position: relative;
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+        overflow: hidden;
+        background-color: var(--piglet-login-header-color);
+        width: var(--piglet-login-width);
+        @apply(--piglet-login-header-theme);
+      }
+
+      .header iron-image {
+        display: block;
+        width: 100%;
+        --iron-image-width: 100%;
+        pointer-events: none;
+        @apply(--piglet-login-header-image);
+      }
+
+      .header iron-icon {
+        display: block;
+        pointer-events: none;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        --iron-icon-fill-color: var(--piglet-login-header-icon-fill-color, #fff);
+        --iron-icon-stroke-color: var(--piglet-login-header-icon-stroke-color, none);
+        --iron-icon-width: var(--piglet-login-header-icon-width, 100px);
+        --iron-icon-height: var(--piglet-login-header-icon-height, 100px);
+        @apply(--piglet-login-header-icon-theme);
+      }
+
+      hr {
+        display: block;
+        height: 1px;
+        border: 0;
+        border-top: 1px solid var(--piglet-login-divider-color, --piglet-login-header-color);
+        ;
+        padding: 0;
+      }
+
+      paper-input {
+        --paper-input-container-underline-focus: {
+          background: rgba(0, 0, 0, 0);
+        };
+        --paper-input-container-underline: {
+          background: rgba(0, 0, 0, 0)
+        };
+        --paper-input-container-color: #cccccc;
+      }
+
+      paper-input iron-icon {
+        fill: #aaaaaa;
+        margin-left: 12px;
+        margin-right: 12px;
+      }
+
+      #username {
+        margin-top: 6px;
+      }
+
+      #password {
+        margin-bottom: 6px;
+      }
+
+      paper-button {
+        background-color: var(--piglet-login-button-color, --piglet-login-header-color);
+        color: white;
+        margin-left: 0;
+        width: 100%;
+        height: 50px;
+        --paper-button: {
+          border-radius: 0px;
+        };
+        @apply(--paper-font-subhead);
+        @apply(--piglet-login-button-theme);
+      }
+    </style>
+
+    <div hidden="[[!_showHeader]]" flex class="header">
+      <iron-image hidden$="[[!image]]" src="[[image]]"></iron-image>
+      <iron-icon hidden="[[!icon]]" icon="{{icon}}"></iron-icon>
+    </div>
+    <paper-input id="username" label="username" no-label-float>
+      <iron-icon icon="{{userIcon}}" prefix></iron-icon>
+    </paper-input>
+    <hr/>
+    <paper-input id="password" label="password" type="password" no-label-float>
+      <iron-icon icon="{{passwordIcon}}" prefix></iron-icon>
+    </paper-input>
+    <paper-button hidden="[[!showLoginButton]]">LOGIN</paper-button>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'piglet-login-rabbit',
+      properties: {
+        /**
+         * The url of the header image.
+         */
+        image: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * The icon in the header.
+         */
+        icon: {
+          type: String,
+          value: ''
+        },
+
+        userIcon: {
+          type: String,
+          value: 'piglet:username'
+        },
+
+        passwordIcon: {
+          type: String,
+          value: 'piglet:password'
+        },
+
+        _showHeader: {
+          type: Boolean,
+          readOnly: true,
+          computed: '_headerContentAvailable(icon, image)'
+        },
+
+        showLoginButton: {
+          type: Boolean,
+          value: false
+        },
+
+        elevation: {
+          type: Number,
+          value: 1,
+          reflectToAttribute: true
+        },
+        /**
+         * Set this to true to animate the card shadow when setting a new
+         * `z` value.
+         */
+        animatedShadow: {
+          type: Boolean,
+          value: false
+        },
+        /**
+         * Read-only property used to pass down the `animatedShadow` value to
+         * the underlying paper-material style (since they have different names).
+         */
+        animated: {
+          type: Boolean,
+          reflectToAttribute: true,
+          readOnly: true,
+          computed: '_computeAnimated(animatedShadow)'
+        }
+      },
+
+      _computeAnimated: function(animatedShadow) {
+        return animatedShadow;
+      },
+
+      _headerContentAvailable: function(icon, image) {
+        return icon != "" || image != "";
+      }
+    });
+  </script>
+</dom-module>
