@@ -21,4 +21,6 @@ Run
 
   polymer serve
 
-Then open http://localhost:8080/components/piglet-login-rabbit/
+Then open 
+
+    http://localhost:8080/components/piglet-login-rabbit/
