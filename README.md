@@ -1,4 +1,4 @@
-![Image of Piglet](https://github.com/PigletsRepo/polymer-piglet-mapbox-map/blob/master/docs/images/amusedPig.png)
+![Image of Piglet](https://github.com/PigletsRepo/polymer-piglet-login-rabbit/blob/master/docs/images/amusedPig.png)
 
 # Piglet Login Rabbit
 
