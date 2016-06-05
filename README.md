@@ -1,4 +1,4 @@
-![Image of Piglet](https://github.com/PigletsRepo/polymer-piglet-login-rabbit/blob/master/docs/images/amusedPig.png)
+![Image of Piglet](docs/images/amusedPig.png)
 
 # Piglet Login Rabbit
 
@@ -27,10 +27,10 @@ Then open
 
 ## Screenshots
 
-![1](https://github.com/PigletsRepo/polymer-piglet-mapbox-map/blob/master/docs/images/screenshot_1.png)
+![1](docs/images/screenshot_1.png)
 
-![2](https://github.com/PigletsRepo/polymer-piglet-mapbox-map/blob/master/docs/images/screenshot_2.png)
+![1](docs/images/screenshot_2.png)
 
-![3](https://github.com/PigletsRepo/polymer-piglet-mapbox-map/blob/master/docs/images/screenshot_3.png)
+![1](docs/images/screenshot_3.png)
 
-![4](https://github.com/PigletsRepo/polymer-piglet-mapbox-map/blob/master/docs/images/screenshot_4.png)
+![1](docs/images/screenshot_4.png)
