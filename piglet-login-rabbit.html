@@ -206,7 +206,7 @@ Custom property | Description | Default
     <paper-input id="password" placeholder="password" type="password" no-label-float required on-keydown="_onInputKeydown">
       <iron-icon icon="{{passwordIcon}}" prefix></iron-icon>
     </paper-input>
-    <paper-button hidden="[[!showLoginButton]]">LOGIN</paper-button>
+    <paper-button hidden="[[!showLoginButton]]" on-tap="_onLoginAttempt">LOGIN</paper-button>
   </template>
 
   <script>
@@ -346,16 +346,7 @@ Custom property | Description | Default
           return;
         }
 
-        if (this._validInput()) {
-          if (this.firebase) {
-            this._firebaseLogin();
-          } else {
-            this._fireLoginEvent();
-          }
-        } else {
-          if(!this.$.username.value) this.showUsernameError(this.usernameMissingMsg);
-          if(!this.$.password.value) this.showPasswordError(this.passwordMissingMsg);
-        }
+        this._onLoginAttempt();
       },
 
       _validInput: function() {
@@ -418,8 +409,20 @@ Custom property | Description | Default
           this.$.password.value = null;
           this.showPasswordError("Invalid password")
         }
-      }
+      },
 
+      _onLoginAttempt: function(){
+        if (this._validInput()) {
+          if (this.firebase) {
+            this._firebaseLogin();
+          } else {
+            this._fireLoginEvent();
+          }
+        } else {
+          if(!this.$.username.value) this.showUsernameError(this.usernameMissingMsg);
+          if(!this.$.password.value) this.showPasswordError(this.passwordMissingMsg);
+        }
+      }
       /**
        * Fired when login button is clicked or user hits enter with valid fields.
        *
