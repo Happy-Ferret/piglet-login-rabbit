@@ -326,8 +326,7 @@ Custom property | Description | Default
         user: {
           type: Object,
           value: null,
-          notify: true,
-          observer: "_onUserChange"
+          notify: true
         }
       },
 
@@ -418,12 +417,6 @@ Custom property | Description | Default
           this.$.username.value = null;
           this.$.password.value = null;
           this.showPasswordError("Invalid password")
-        }
-      },
-
-      _onUserChange: function(){
-        if(this.user != null){
-          console.log(this.user)
         }
       }
 
