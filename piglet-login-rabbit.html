@@ -167,8 +167,8 @@ Custom property | Description | Default
 
       paper-input iron-icon {
         fill: #aaaaaa;
-        margin-left: 12px;
-        margin-right: 12px;
+        margin-left: 16px;
+        margin-right: 16px;
       }
 
       #username {
@@ -331,6 +331,17 @@ Custom property | Description | Default
         }
       },
 
+      logout: function(){
+        this.$.firebaseLogin.logout();
+        this.user = null;
+        this.clearFields();
+      },
+
+      clearFields: function(){
+        this.$.username.value = null;
+        this.$.password.value = null;
+      },
+
       _computeAnimated: function(animatedShadow) {
         return animatedShadow;
       },
@@ -402,11 +413,9 @@ Custom property | Description | Default
 
       _errorHandler: function(e) {
         if(e.detail.code === "INVALID_EMAIL"){
-          this.$.username.value = null;
-          this.$.password.value = null;
+          this.clearFields();
           this.showUsernameError("Invalid email")
         }else if(e.detail.code === "INVALID_PASSWORD"){
-          this.$.username.value = null;
           this.$.password.value = null;
           this.showPasswordError("Invalid password")
         }
