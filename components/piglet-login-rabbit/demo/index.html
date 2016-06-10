@@ -1,0 +1,139 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>piglet-login-rabbit Demo</title>
+  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <link rel="import" href="../piglet-icons.html">
+  <link rel="import" href="../piglet-login-rabbit.html">
+  <link rel="import" href="../../iron-icons/iron-icons.html">
+  <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+  <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+
+  <style is="custom-style" include="demo-pages-shared-styles">
+    .vertical-section-container {
+      max-width: 500px;
+    }
+
+    h3 {
+      @apply(--paper-font-common-base);
+      color: #555555;
+    }
+  </style>
+</head>
+
+<body unresolved>
+  <div class="vertical-section-container centered">
+    <demo-snippet class="centered-demo">
+      <template>
+        <piglet-login-rabbit icon="piglet:piglet">
+        </piglet-login-rabbit>
+      </template>
+    </demo-snippet>
+
+    <h3>Customizing header color</h3>
+    <demo-snippet class="centered-demo">
+      <template>
+        <style is="custom-style">
+          #one {
+            --piglet-login-header-color: #FF9800;
+          }
+        </style>
+        <piglet-login-rabbit id="one" elevation=5 icon="piglet:polymer">
+        </piglet-login-rabbit>
+      </template>
+    </demo-snippet>
+
+    <h3>Customizing header icon</h3>
+    <demo-snippet class="centered-demo">
+      <template>
+        <style is="custom-style">
+          #two {
+            --piglet-login-header-color: #FF4081;
+            --piglet-login-header-icon-fill-color: #FFEB3B;
+            --piglet-login-header-icon-width: 60px;
+          }
+        </style>
+        <piglet-login-rabbit id="two" icon="fingerprint">
+        </piglet-login-rabbit>
+      </template>
+    </demo-snippet>
+
+    <h3>Adding login button and firebase login</h3>
+    <demo-snippet class="centered-demo">
+      <template>
+        <style is="custom-style">
+          #three {
+            --piglet-login-header-color: #468966;
+            --piglet-login-header-icon-fill-color: #FFB03B;
+          }
+        </style>
+        <piglet-login-rabbit id="three" icon="invert-colors" show-login-button firebase firebase-location="https://polymer-tests.firebaseio.com">
+        </piglet-login-rabbit>
+      </template>
+    </demo-snippet>
+
+    <h3>No header and no login button</h3>
+    <demo-snippet class="centered-demo">
+      <template>
+        <style is="custom-style">
+          #four {
+            --piglet-login-divider-color: #eeeeee;
+          }
+        </style>
+        <piglet-login-rabbit id="four"></piglet-login-rabbit>
+      </template>
+    </demo-snippet>
+
+    <h3>No header</h3>
+    <demo-snippet class="centered-demo">
+      <template>
+        <style is="custom-style">
+          #five {
+            --piglet-login-divider-color: #9C27B0;
+            --piglet-login-button-color: #9C27B0;
+          }
+        </style>
+        <piglet-login-rabbit id="five" show-login-button></piglet-login-rabbit>
+      </template>
+    </demo-snippet>
+
+    <h3>Use image in header</h3>
+    <demo-snippet class="centered-demo">
+      <template>
+        <style is="custom-style">
+          #six {
+            --piglet-login-header-color: #FEC92E;
+          }
+        </style>
+        <piglet-login-rabbit id="six" image="http://placehold.it/350x150/FFC107/000000" show-login-button>
+        </piglet-login-rabbit>
+      </template>
+    </demo-snippet>
+
+    <h3>Custom icons</h3>
+    <demo-snippet class="centered-demo">
+      <template>
+        <style is="custom-style">
+          #five {
+            --piglet-login-divider-color: #eeeeee;
+          }
+        </style>
+        <piglet-login-rabbit id="five" user-icon="communication:mail-outline" password-icon="lock-outline"></piglet-login-rabbit>
+      </template>
+    </demo-snippet>
+  </div>
+</body>
+
+</html>

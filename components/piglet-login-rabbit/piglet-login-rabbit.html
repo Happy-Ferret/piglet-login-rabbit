@@ -1,0 +1,433 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-image/iron-image.html">
+<link rel="import" href="../paper-material/paper-material.html">
+<link rel="import" href="../paper-styles/default-theme.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-icons/communication-icons.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../firebase-element/firebase-auth.html">
+
+<!--
+## Piglet Login Rabbit
+A piglet login element named rabbit. Together its called `<piglet-login-rabbit>`.
+Either use svg icon or the image for header. Don't use both.
+
+### Examples:
+Simple Use:
+
+    <piglet-login-rabbit icon="piglet:piglet"></piglet-login-rabbit>
+
+Custom header color:
+
+    <style is="custom-style">
+      #one {
+        --piglet-login-header-color: #FF9800;
+      }
+    </style>
+    <piglet-login-rabbit id="one" icon="piglet:polymer">
+    </piglet-login-rabbit>
+
+Customizing header icon:
+
+    <style is="custom-style">
+      #two {
+        --piglet-login-header-color: #FF4081;
+        --piglet-login-header-icon-fill-color: #FFEB3B;
+        --piglet-login-header-icon-width: 60px;
+      }
+    </style>
+    <piglet-login-rabbit id="two" icon="fingerprint">
+    </piglet-login-rabbit>
+
+Adding login button and changing elevation:
+
+    <style is="custom-style">
+      #three {
+        --piglet-login-header-color: #468966;
+        --piglet-login-header-icon-fill-color: #FFB03B;
+      }
+    </style>
+    <piglet-login-rabbit id="three" icon="invert-colors" show-login-button elevation=5>
+    </piglet-login-rabbit>
+
+### Styling
+
+`<piglet-login-rabbit>` provides the following custom properties and mixins
+for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--piglet-login-rabbit-theme` | Theme which applies to host | {}
+`--piglet-login-header-theme` | Theme which applies to header | {}
+`--piglet-login-header-image-theme` | Theme which applies to header image | {}
+`--piglet-login-header-icon-theme` | Theme which applies to header icon | {}
+`--piglet-login-button-theme` | Theme which applies to login button | {}
+`--piglet-login-header-color` | Color of the header background | #03A9F4
+`--piglet-login-width` | Width of the element | 300px
+`--piglet-login-header-icon-fill-color` | Fill color for header svg icon | #fff
+`--piglet-login-header-icon-stroke-color` | Stroke color for header svg icon | none
+`--piglet-login-header-icon-width` | Width of header svg icon | 100px
+`--piglet-login-header-icon-height` | Height of header svg icon | 100px
+`--piglet-login-divider-color` | Color of the divider between input fields | `--piglet-login-header-color`
+`--piglet-login-button-color` | Color of the login button | `--piglet-login-header-color`
+`--piglet-input-container-color` | Color of placeholders in input boxes | #cccccc
+`--piglet-input-error-color` | Color of error text in input boxes | #e86666
+
+@hero hero.svg
+@demo demo/index.html
+-->
+
+<dom-module id="piglet-login-rabbit">
+  <template>
+    <style include="paper-material">
+      :host {
+        display: inline-block;
+        position: relative;
+        box-sizing: border-box;
+        background-color: #fff;
+        border-radius: 2px;
+        margin: 2px;
+        @apply(--paper-font-common-base);
+        @apply(--piglet-login-rabbit-theme);
+        --piglet-login-header-color: #03A9F4;
+        --piglet-login-width: 300px;
+        --piglet-input-container-color: #cccccc;
+        --piglet-input-error-color: #e86666;
+        width: var(--piglet-login-width);
+      }
+      /* IE 10 support for HTML5 hidden attr */
+
+      [hidden] {
+        display: none !important;
+      }
+
+      .header {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+        position: relative;
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+        overflow: hidden;
+        background-color: var(--piglet-login-header-color);
+        width: var(--piglet-login-width);
+        @apply(--piglet-login-header-theme);
+      }
+
+      .header iron-image {
+        display: block;
+        width: 100%;
+        --iron-image-width: 100%;
+        pointer-events: none;
+        @apply(--piglet-login-header-image-theme);
+      }
+
+      .header iron-icon {
+        display: block;
+        pointer-events: none;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        --iron-icon-fill-color: var(--piglet-login-header-icon-fill-color, #fff);
+        --iron-icon-stroke-color: var(--piglet-login-header-icon-stroke-color, none);
+        --iron-icon-width: var(--piglet-login-header-icon-width, 100px);
+        --iron-icon-height: var(--piglet-login-header-icon-height, 100px);
+        @apply(--piglet-login-header-icon-theme);
+      }
+
+      hr {
+        display: block;
+        height: 1px;
+        border: 0;
+        border-top: 1px solid var(--piglet-login-divider-color, --piglet-login-header-color);
+        ;
+        padding: 0;
+      }
+
+      paper-input {
+        --paper-input-container-underline-focus: {
+          background: rgba(0, 0, 0, 0);
+        }
+        ;
+        --paper-input-container-underline: {
+          background: rgba(0, 0, 0, 0)
+        }
+        ;
+      }
+
+      #username{
+        --paper-input-container-color: var(--piglet-username-input-container-color, --piglet-input-container-color);
+      }
+
+      #password{
+        --paper-input-container-color: var(--piglet-password-input-container-color, --piglet-input-container-color);
+      }
+
+      paper-input iron-icon {
+        fill: #aaaaaa;
+        margin-left: 12px;
+        margin-right: 12px;
+      }
+
+      #username {
+        margin-top: 6px;
+      }
+
+      #password {
+        margin-bottom: 6px;
+      }
+
+      paper-button {
+        background-color: var(--piglet-login-button-color, --piglet-login-header-color);
+        margin-left: 0;
+        color: white;
+        width: 100%;
+        height: 50px;
+        --paper-button: {
+          border-radius: 0px;
+        }
+        ;
+        @apply(--paper-font-subhead);
+        @apply(--piglet-login-button-theme);
+      }
+    </style>
+
+    <firebase-auth hidden$="[[!firebase]]" id="firebaseLogin" user="{{user}}" status-known location="{{firebaseLocation}}" provider="password" on-error="_errorHandler"></firebase-auth>
+
+    <div hidden="[[!_showHeader]]" flex class="header">
+      <iron-image hidden$="[[!image]]" src="[[image]]"></iron-image>
+      <iron-icon hidden$="[[!icon]]" icon="{{icon}}"></iron-icon>
+    </div>
+    <paper-input id="username" placeholder="username" no-label-float required on-keydown="_onInputKeydown">
+      <iron-icon icon="{{userIcon}}" prefix></iron-icon>
+    </paper-input>
+    <hr/>
+    <paper-input id="password" placeholder="password" type="password" no-label-float required on-keydown="_onInputKeydown">
+      <iron-icon icon="{{passwordIcon}}" prefix></iron-icon>
+    </paper-input>
+    <paper-button hidden="[[!showLoginButton]]" on-tap="_onLoginAttempt">LOGIN</paper-button>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'piglet-login-rabbit',
+      properties: {
+        /**
+         * The url of the header image.
+         */
+        image: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * The svg icon in the header.
+         */
+        icon: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * The svg icon for username input field.
+         */
+        userIcon: {
+          type: String,
+          value: 'piglet:username'
+        },
+
+        /**
+         * The svg icon for password input field.
+         */
+        passwordIcon: {
+          type: String,
+          value: 'piglet:password'
+        },
+
+        /**
+         * The error message for username which is shown if validation fails.
+         */
+        usernameMissingMsg: {
+          type: String,
+          value: 'required'
+        },
+
+        /**
+         * The error message for password which is shown if validation fails.
+         */
+        passwordMissingMsg: {
+          type: String,
+          value: 'required'
+        },
+
+        _showHeader: {
+          type: Boolean,
+          readOnly: true,
+          computed: '_headerContentAvailable(icon, image)'
+        },
+
+        /**
+         * Show the login button.
+         */
+        showLoginButton: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * The elevation of the card.
+         */
+        elevation: {
+          type: Number,
+          value: 1,
+          reflectToAttribute: true
+        },
+
+        /**
+         * Set this to true to animate the card shadow when setting a new
+         * `z` value.
+         */
+        animatedShadow: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * Read-only property used to pass down the `animatedShadow` value to
+         * the underlying paper-material style (since they have different names).
+         */
+        animated: {
+          type: Boolean,
+          reflectToAttribute: true,
+          readOnly: true,
+          computed: '_computeAnimated(animatedShadow)'
+        },
+
+        /**
+         * Enable firebase login.
+         */
+        firebase: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * Firebase location URL.
+         */
+        firebaseLocation: {
+          type: String,
+          value: ''
+        },
+
+        /**
+        * Firebase user
+        */
+        user: {
+          type: Object,
+          value: null,
+          notify: true
+        }
+      },
+
+      _computeAnimated: function(animatedShadow) {
+        return animatedShadow;
+      },
+
+      _headerContentAvailable: function(icon, image) {
+        return icon != "" || image != "";
+      },
+
+      _onInputKeydown: function(e) {
+        if (e.keyCode !== 13) {
+          if (this._errorVisible) {
+            this._removeErrorMessage();
+          }
+          return;
+        }
+
+        this._onLoginAttempt();
+      },
+
+      _validInput: function() {
+        return this.$.username.value && this.$.password.value;
+      },
+
+      _removeErrorMessage: function() {
+        this._errorVisible = false;
+        var labelColor = this.getComputedStyleValue('--piglet-input-container-color');
+        this.customStyle['--piglet-username-input-container-color'] = labelColor;
+        this.customStyle['--piglet-password-input-container-color'] = labelColor;
+        this.updateStyles();
+        this.$.username.placeholder = "username";
+        this.$.password.placeholder = "password";
+      },
+
+      /**
+        * Disylay the given error in email box
+      */
+      showUsernameError: function(msg){
+        this._errorVisible = true;
+        var errorColor = this.getComputedStyleValue('--piglet-input-error-color');
+        this.customStyle['--piglet-username-input-container-color'] = errorColor;
+        this.updateStyles();
+        this.$.username.placeholder = msg;
+      },
+
+      /**
+        * Disylay the given error in password box
+      */
+      showPasswordError: function(msg){
+        this._errorVisible = true;
+        var errorColor = this.getComputedStyleValue('--piglet-input-error-color');
+        this.customStyle['--piglet-password-input-container-color'] = errorColor;
+        this.updateStyles();
+        this.$.password.placeholder = msg;
+      },
+
+      _fireLoginEvent: function() {
+        this.fire('onLoginInitiated', {
+          username: this.$.username.value,
+          password: this.$.password.value,
+        });
+      },
+
+      _firebaseLogin: function() {
+        var params = {};
+        params.email = this.$.username.value;
+        params.password = this.$.password.value;
+        this.$.firebaseLogin.login(params);
+      },
+
+      _errorHandler: function(e) {
+        if(e.detail.code === "INVALID_EMAIL"){
+          this.$.username.value = null;
+          this.$.password.value = null;
+          this.showUsernameError("Invalid email")
+        }else if(e.detail.code === "INVALID_PASSWORD"){
+          this.$.username.value = null;
+          this.$.password.value = null;
+          this.showPasswordError("Invalid password")
+        }
+      },
+
+      _onLoginAttempt: function(){
+        if (this._validInput()) {
+          if (this.firebase) {
+            this._firebaseLogin();
+          } else {
+            this._fireLoginEvent();
+          }
+        } else {
+          if(!this.$.username.value) this.showUsernameError(this.usernameMissingMsg);
+          if(!this.$.password.value) this.showPasswordError(this.passwordMissingMsg);
+        }
+      }
+      /**
+       * Fired when login button is clicked or user hits enter with valid fields.
+       *
+       * @event onLoginInitiated
+       */
+    });
+  </script>
+</dom-module>
