@@ -1,6 +1,6 @@
 {
   "name": "piglet-login-rabbit",
-  "version": "1.0.7",
+  "version": "0.0.1",
   "authors": [
     "Few piglets <shashank004@gmail.com>"
   ],
@@ -19,6 +19,8 @@
   "homepage": "https://github.com/<USERNAME>/seed-element/",
   "ignore": [
     "/.*",
+    "bower_components",
+    "node_modules",
     "/test/"
   ],
   "dependencies": {
