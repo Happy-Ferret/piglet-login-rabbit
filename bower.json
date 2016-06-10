@@ -8,7 +8,11 @@
   "keywords": [
     "web-component",
     "polymer",
-    "seed"
+    "web-components",
+    "login",
+    "firebase",
+    "auth",
+    "authentication"
   ],
   "main": "piglet-login-rabbit.html",
   "license": "http://polymer.github.io/LICENSE.txt",
