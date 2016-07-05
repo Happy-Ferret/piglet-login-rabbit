@@ -71,6 +71,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </demo-snippet>
 
     <h3>Adding login button and firebase login</h3>
+    <p>Use <b>babypiglet@piglet.com</b> and <b>pigletTest</b> as credentials</p>
     <demo-snippet class="centered-demo">
       <template>
         <style is="custom-style">
@@ -79,7 +80,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             --piglet-login-header-icon-fill-color: #FFB03B;
           }
         </style>
-        <piglet-login-rabbit id="three" icon="invert-colors" show-login-button firebase firebase-location="https://polymer-tests.firebaseio.com">
+        <piglet-login-rabbit id="three" icon="invert-colors" show-login-button firebase firebase-domain="piglet-login.firebaseapp.com" firebase-api-key="AIzaSyD2KeIXV-9KVppPTxeMs5vw6ZPUjtqdLPo" firebase-database-url="https://piglet-login.firebaseio.com">
         </piglet-login-rabbit>
       </template>
     </demo-snippet>

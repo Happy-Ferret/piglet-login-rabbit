@@ -8,7 +8,8 @@
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../iron-icons/communication-icons.html">
 <link rel="import" href="../iron-icon/iron-icon.html">
-<link rel="import" href="../firebase-element/firebase-auth.html">
+<link rel="import" href="../polymerfire/firebase-auth.html">
+<link rel="import" href="../polymerfire/firebase-app.html">
 <link rel="import" href="piglet-icons.html">
 
 <!--
@@ -157,11 +158,11 @@ Custom property | Description | Default
         ;
       }
 
-      #username{
+      #username {
         --paper-input-container-color: var(--piglet-username-input-container-color, --piglet-input-container-color);
       }
 
-      #password{
+      #password {
         --paper-input-container-color: var(--piglet-password-input-container-color, --piglet-input-container-color);
       }
 
@@ -193,8 +194,9 @@ Custom property | Description | Default
         @apply(--piglet-login-button-theme);
       }
     </style>
-
-    <firebase-auth hidden$="[[!firebase]]" id="firebaseLogin" user="{{user}}" status-known location="{{firebaseLocation}}" provider="password" on-error="_errorHandler"></firebase-auth>
+    <firebase-app auth-domain="{{firebaseDomain}}" database-url="{{firebaseDatabaseUrl}}" api-key="{{firebaseApiKey}}"></firebase-app>
+    <firebase-auth hidden$="[[!firebase]]" id="firebaseLogin" user="{{user}}" on-error="_errorHandler"></firebase-auth>
+    <!-- <firebase-auth hidden$="[[!firebase]]" id="firebaseLogin" user="{{user}}" status-known provider="password" on-error="_errorHandler"></firebase-auth> -->
 
     <div hidden="[[!_showHeader]]" flex class="header">
       <iron-image hidden$="[[!image]]" src="[[image]]"></iron-image>
@@ -314,16 +316,32 @@ Custom property | Description | Default
         },
 
         /**
-         * Firebase location URL.
+         * Firebase domain URL.
          */
-        firebaseLocation: {
+        firebaseDomain: {
           type: String,
           value: ''
         },
 
         /**
-        * Firebase user
-        */
+         * Firebase database URL.
+         */
+        firebaseDatabaseUrl: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * Firebase api key.
+         */
+        firebaseApiKey: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * Firebase user
+         */
         user: {
           type: Object,
           value: null,
@@ -331,13 +349,19 @@ Custom property | Description | Default
         }
       },
 
-      logout: function(){
+      /**
+       * Logout the user from firebase.
+       */
+      logout: function() {
         this.$.firebaseLogin.logout();
         this.user = null;
         this.clearFields();
       },
 
-      clearFields: function(){
+      /**
+       * Clear both the input fields.
+       */
+      clearFields: function() {
         this.$.username.value = null;
         this.$.password.value = null;
       },
@@ -376,9 +400,9 @@ Custom property | Description | Default
       },
 
       /**
-        * Disylay the given error in email box
-      */
-      showUsernameError: function(msg){
+       * Disylay the given error in email box
+       */
+      showUsernameError: function(msg) {
         this._errorVisible = true;
         var errorColor = this.getComputedStyleValue('--piglet-input-error-color');
         this.customStyle['--piglet-username-input-container-color'] = errorColor;
@@ -387,9 +411,9 @@ Custom property | Description | Default
       },
 
       /**
-        * Disylay the given error in password box
-      */
-      showPasswordError: function(msg){
+       * Disylay the given error in password box
+       */
+      showPasswordError: function(msg) {
         this._errorVisible = true;
         var errorColor = this.getComputedStyleValue('--piglet-input-error-color');
         this.customStyle['--piglet-password-input-container-color'] = errorColor;
@@ -405,39 +429,38 @@ Custom property | Description | Default
       },
 
       _firebaseLogin: function() {
-        var params = {};
-        params.email = this.$.username.value;
-        params.password = this.$.password.value;
-        this.$.firebaseLogin.login(params);
+        this.$.firebaseLogin.signInWithEmailAndPassword(this.$.username.value, this.$.password.value).then(null, function(err){
+          console.error(err.message);
+        });
       },
 
       _errorHandler: function(e) {
-        if(e.detail.code === "INVALID_EMAIL"){
+        if (e.detail.code === "auth/invalid-email" || e.detail.code === "auth/user-not-found") {
           this.clearFields();
           this.showUsernameError("Invalid email")
-        }else if(e.detail.code === "INVALID_PASSWORD"){
+        } else if (e.detail.code === "auth/wrong-password") {
           this.$.password.value = null;
           this.showPasswordError("Invalid password")
         }
       },
 
-      _onLoginAttempt: function(){
-        if (this._validInput()) {
-          if (this.firebase) {
-            this._firebaseLogin();
+      _onLoginAttempt: function() {
+          if (this._validInput()) {
+            if (this.firebase) {
+              this._firebaseLogin();
+            } else {
+              this._fireLoginEvent();
+            }
           } else {
-            this._fireLoginEvent();
+            if (!this.$.username.value) this.showUsernameError(this.usernameMissingMsg);
+            if (!this.$.password.value) this.showPasswordError(this.passwordMissingMsg);
           }
-        } else {
-          if(!this.$.username.value) this.showUsernameError(this.usernameMissingMsg);
-          if(!this.$.password.value) this.showPasswordError(this.passwordMissingMsg);
         }
-      }
-      /**
-       * Fired when login button is clicked or user hits enter with valid fields.
-       *
-       * @event onLoginInitiated
-       */
+        /**
+         * Fired when login button is clicked or user hits enter with valid fields.
+         *
+         * @event onLoginInitiated
+         */
     });
   </script>
 </dom-module>
