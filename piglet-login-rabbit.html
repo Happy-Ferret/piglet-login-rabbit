@@ -353,7 +353,7 @@ Custom property | Description | Default
        * Logout the user from firebase.
        */
       logout: function() {
-        this.$.firebaseLogin.logout();
+        this.$.firebaseLogin.signOut();
         this.user = null;
         this.clearFields();
       },
